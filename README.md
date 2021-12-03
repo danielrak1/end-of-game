@@ -1,8 +1,11 @@
 This is an Web Application to Track Expenses developed using :
 
 Java 17 
+
 Spring Boot 2.6.0
+
 Spring Data JPA 
+
 Spring Security 
 
 Authentication:

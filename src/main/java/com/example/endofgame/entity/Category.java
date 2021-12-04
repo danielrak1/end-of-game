@@ -1,6 +1,7 @@
 package com.example.endofgame.entity;
 
 import lombok.AllArgsConstructor;
+import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
@@ -11,6 +12,7 @@ import java.time.LocalDateTime;
 @Data
 @NoArgsConstructor
 @AllArgsConstructor
+@Builder
 @Table(name = "categories")
 public class Category {
 
@@ -24,7 +26,7 @@ public class Category {
     @ManyToOne(cascade = CascadeType.PERSIST)
     private User user;
 
-    LocalDateTime creationTimestamp;
+    private LocalDateTime creationTimestamp;
 
-    LocalDateTime updateTimestamp;
+    private LocalDateTime updateTimestamp;
 }

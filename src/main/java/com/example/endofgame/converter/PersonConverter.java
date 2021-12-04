@@ -1,4 +1,4 @@
-package com.example.endofgame.mapping;
+package com.example.endofgame.converter;
 
 import com.example.endofgame.dto.PersonSummary;
 import com.example.endofgame.entity.Person;

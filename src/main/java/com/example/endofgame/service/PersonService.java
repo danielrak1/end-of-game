@@ -1,7 +1,7 @@
 package com.example.endofgame.service;
 
 import com.example.endofgame.dto.PersonSummary;
-import com.example.endofgame.mapping.PersonConverter;
+import com.example.endofgame.converter.PersonConverter;
 import com.example.endofgame.repository.PersonRepository;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;

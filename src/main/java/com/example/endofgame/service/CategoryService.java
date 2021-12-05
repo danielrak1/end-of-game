@@ -7,7 +7,7 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
-import java.util.stream.Collectors;
+import java.util.Optional;
 
 @Service
 @Slf4j
@@ -36,12 +36,9 @@ public class CategoryService {
         return result;
     }
 
-    public CategorySummary readCategoryById(Long myId) {
-        //TODO: add logger
-        log.info("reading category by id");
+    public Optional<CategorySummary> readCategoryById(Long myId) {
         var result = repository.findById(myId);
-        return result
-                .map(converter::fromEntityToDto)
-                .orElse(null);
+        log.info("item with id: [{}] exists? - [{}]",myId, result.isPresent());
+        return result.map(converter::fromEntityToDto);
     }
 }

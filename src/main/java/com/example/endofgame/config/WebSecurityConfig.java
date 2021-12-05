@@ -45,17 +45,23 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
         auth.authenticationProvider(authenticationProvider());
     }
 
+//    @Override
+//    protected void configure(HttpSecurity http) throws Exception {
+//        http.authorizeRequests()
+//                .antMatchers("/users").authenticated()
+//                .anyRequest().permitAll()
+//                .and()
+//                .formLogin()
+//                    .usernameParameter("email")
+//                    .defaultSuccessUrl("/users")
+//                    .permitAll()
+//                .and()
+//                .logout().logoutSuccessUrl("/").permitAll();
+//    }
+
     @Override
     protected void configure(HttpSecurity http) throws Exception {
-        http.authorizeRequests()
-                .antMatchers("/users").authenticated()
-                .anyRequest().permitAll()
-                .and()
-                .formLogin()
-                    .usernameParameter("email")
-                    .defaultSuccessUrl("/users")
-                    .permitAll()
-                .and()
-                .logout().logoutSuccessUrl("/").permitAll();
+        http.csrf().disable();
+        http.headers().frameOptions().disable();
     }
 }

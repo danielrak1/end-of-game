@@ -8,9 +8,6 @@ import org.springframework.stereotype.Component;
 public class PersonConverter {
 
     public PersonSummary fromEntityToDto(Person person) {
-        return new PersonSummary(
-                person.getName()
-                        + " "
-                        + person.getSurname() );
+        return new PersonSummary(person.getName() + " " + person.getSurname());
     }
 }

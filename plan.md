@@ -34,3 +34,18 @@ Subject:
 ###Technical requirements
 1. Heroku cloud deploy
 2. Security
+
+###How to implement feature
+1. Create entity
+2. Create repository
+3. Create dto object
+4. Create converter
+5. Create Service
+   1. Implement all required methods
+      1. for read all
+      2. read by id
+      3. update
+      4. delete
+      5. create
+   
+

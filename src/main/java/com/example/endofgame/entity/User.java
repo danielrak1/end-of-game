@@ -1,6 +1,7 @@
 package com.example.endofgame.entity;
 
 import javax.persistence.*;
+import java.util.Set;
 
 
 @Entity
@@ -22,6 +23,17 @@ public class User {
 
     @Column(name = "last_name", nullable = false, length = 20)
     private String lastName;
+
+    @OneToMany
+    private Set<Category> category;
+
+    public Set<Category> getCategory() {
+        return category;
+    }
+
+    public void setCategory(Set<Category> category) {
+        this.category = category;
+    }
 
     public Long getId() {
         return id;

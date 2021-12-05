@@ -4,11 +4,9 @@ import com.example.endofgame.dto.CategorySummary;
 import com.example.endofgame.service.CategoryService;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
+import java.net.URI;
 import java.util.List;
 
 @RestController
@@ -40,6 +38,24 @@ public class CategoryController {
         }
         return result;
     }
+
+    //TODO: avoid category duplicates
+    @PostMapping("/categories")
+    public ResponseEntity<CategorySummary> createNewCategory(@RequestBody CategorySummary newCategory){
+        log.info("Trying to create new category from request object: [{}]", newCategory);
+
+        var createdCategory = service.createNewCategory(newCategory);
+        return ResponseEntity.created(URI.create("/categories/" + createdCategory.id())).body(createdCategory);
+    }
+
+    @DeleteMapping("/categories/{id}")
+    public ResponseEntity<Void> deleteCategoryById(@PathVariable("id") Long idOfCategoryToDelete){
+        log.info("Trying to delete category by [{}]", idOfCategoryToDelete);
+
+        service.deleteCategoryById(idOfCategoryToDelete);
+        return ResponseEntity.noContent().build();
+    }
+
 
 
 }

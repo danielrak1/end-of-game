@@ -29,4 +29,15 @@ public class Category {
     private LocalDateTime creationTimestamp;
 
     private LocalDateTime updateTimestamp;
+
+    @PrePersist
+    public void beforeSave (){
+        creationTimestamp = LocalDateTime.now();
+        updateTimestamp = LocalDateTime.now();
+    }
+
+    @PreUpdate
+    public void beforeUpdate(){
+        updateTimestamp = LocalDateTime.now();
+    }
 }

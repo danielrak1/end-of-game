@@ -2,10 +2,12 @@ package com.example.endofgame.service;
 
 import com.example.endofgame.converter.CategoryConverter;
 import com.example.endofgame.dto.CategorySummary;
+import com.example.endofgame.entity.Category;
 import com.example.endofgame.repository.CategoryRepository;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
 
+import javax.transaction.Transactional;
 import java.util.List;
 import java.util.Optional;
 
@@ -39,6 +41,28 @@ public class CategoryService {
     public Optional<CategorySummary> readCategoryById(Long myId) {
         var result = repository.findById(myId);
         log.info("item with id: [{}] exists? - [{}]",myId, result.isPresent());
+        log.debug("received category: [{}]", result.orElse(null));
         return result.map(converter::fromEntityToDto);
+    }
+
+    public CategorySummary createNewCategory(CategorySummary newCategory) {
+        Category toSave = converter.fromDtoToEntity(newCategory);
+        Category saved = repository.save(toSave);
+
+        log.info("creating new category");
+        log.info("object before conversion [{}]", newCategory);
+        log.info("object after conversion [{}]", toSave);
+        log.info("saved object [{}]", saved);
+
+        return converter.fromEntityToDto(saved);
+    }
+
+    //TODO: fix the problem with non existent id
+    @Transactional
+    public void deleteCategoryById(Long idOfCategoryToDelete){
+        log.info("deleteing category with id: [{}]", idOfCategoryToDelete);
+       if(repository.existsById(idOfCategoryToDelete)){
+               repository.deleteById(idOfCategoryToDelete);
+        }
     }
 }

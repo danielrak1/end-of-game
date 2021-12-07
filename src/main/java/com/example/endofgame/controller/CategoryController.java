@@ -3,6 +3,7 @@ package com.example.endofgame.controller;
 import com.example.endofgame.dto.CategorySummary;
 import com.example.endofgame.service.CategoryService;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
@@ -44,16 +45,20 @@ public class CategoryController {
     public ResponseEntity<CategorySummary> createNewCategory(@RequestBody CategorySummary newCategory){
         log.info("Trying to create new category from request object: [{}]", newCategory);
 
-        var createdCategory = service.createNewCategory(newCategory);
-        return ResponseEntity.created(URI.create("/categories/" + createdCategory.id())).body(createdCategory);
+            var createdCategory = service.createNewCategory(newCategory);
+            return ResponseEntity.created(URI.create("/categories/" + createdCategory.id())).body(createdCategory);
+
     }
 
     @DeleteMapping("/categories/{id}")
-    public ResponseEntity<Void> deleteCategoryById(@PathVariable("id") Long idOfCategoryToDelete){
-        log.info("Trying to delete category by [{}]", idOfCategoryToDelete);
+    public ResponseEntity<String> deleteCategoryById(@PathVariable("id") Long idOfCategoryToDelete){
 
-        service.deleteCategoryById(idOfCategoryToDelete);
-        return ResponseEntity.noContent().build();
+        if (service.readCategoryById(idOfCategoryToDelete).isPresent()){
+            service.deleteCategoryById(idOfCategoryToDelete);
+            return new ResponseEntity<>("Category deleted", HttpStatus.OK);
+        }else{
+            return new ResponseEntity<>("Category does not exist", HttpStatus.BAD_REQUEST);
+        }
     }
 
 

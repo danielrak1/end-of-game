@@ -43,7 +43,6 @@ public class CategoryController {
         return result;
     }
 
-    //TODO: avoid category duplicates
     @PostMapping("/categories")
     public ResponseEntity<CategorySummary> createNewCategory(@RequestBody CategorySummary newCategory) {
         log.info("Trying to create new category from request object: [{}]", newCategory);
@@ -60,22 +59,6 @@ public class CategoryController {
 
         }
     }
-
-//    @PostMapping("/categories")
-//    public ResponseEntity<CategorySummary> createNewCategory(@RequestBody CategorySummary newCategory) {
-//        log.info("trying to create new category from request object: [{}]", newCategory);
-//        List<CategorySummary> myList = service.readAllCategories();
-//        for (CategorySummary categorySummary : myList) {
-//            String name = categorySummary.name();
-//            if (name.equals(newCategory.name())) {
-//                log.info("Category [{}] exist", newCategory.name());
-//                return null;
-//            }
-//        }
-//        var createdCategory = service.createNewCategory(newCategory);
-//        return ResponseEntity.created(URI.create("/categories/" + createdCategory.id())).body(createdCategory);
-//    }
-
 
     @DeleteMapping("/categories/{id}")
     public ResponseEntity<String> deleteCategoryById(@PathVariable("id") Long idOfCategoryToDelete) {

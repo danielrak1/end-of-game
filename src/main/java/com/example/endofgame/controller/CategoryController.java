@@ -1,6 +1,7 @@
 package com.example.endofgame.controller;
 
 import com.example.endofgame.dto.CategorySummary;
+import com.example.endofgame.repository.CategoryRepository;
 import com.example.endofgame.service.CategoryService;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.HttpStatus;
@@ -16,25 +17,27 @@ import java.util.List;
 public class CategoryController {
 
     private final CategoryService service;
+    private final CategoryRepository repository;
 
-    public CategoryController(final CategoryService service) {
+    public CategoryController(final CategoryService service, CategoryRepository repository) {
         this.service = service;
+        this.repository = repository;
     }
 
     @GetMapping("/categories")
-    public List<CategorySummary> allCategories(){
+    public List<CategorySummary> allCategories() {
         log.info("endpoint: /categories");
 
         return service.readAllCategories();
     }
 
     @GetMapping("/categories/{id}")
-    public ResponseEntity<CategorySummary> findCategoryById(@PathVariable("id") Long myId){
+    public ResponseEntity<CategorySummary> findCategoryById(@PathVariable("id") Long myId) {
         log.info("trying to find category with id: [{}]", myId);
 
         var readCategorySummary = service.readCategoryById(myId);
         var result = ResponseEntity.notFound().<CategorySummary>build();
-        if (readCategorySummary.isPresent()){
+        if (readCategorySummary.isPresent()) {
             result = ResponseEntity.ok(readCategorySummary.get());
         }
         return result;
@@ -42,25 +45,48 @@ public class CategoryController {
 
     //TODO: avoid category duplicates
     @PostMapping("/categories")
-    public ResponseEntity<CategorySummary> createNewCategory(@RequestBody CategorySummary newCategory){
+    public ResponseEntity<CategorySummary> createNewCategory(@RequestBody CategorySummary newCategory) {
         log.info("Trying to create new category from request object: [{}]", newCategory);
 
+        if (service.isDuplicate(newCategory)) {
+            log.info("Category already exists");
+
+            return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
+        } else{
+            log.info("Category is new");
             var createdCategory = service.createNewCategory(newCategory);
+
             return ResponseEntity.created(URI.create("/categories/" + createdCategory.id())).body(createdCategory);
 
-    }
-
-    @DeleteMapping("/categories/{id}")
-    public ResponseEntity<String> deleteCategoryById(@PathVariable("id") Long idOfCategoryToDelete){
-
-        if (service.readCategoryById(idOfCategoryToDelete).isPresent()){
-            service.deleteCategoryById(idOfCategoryToDelete);
-            return new ResponseEntity<>("Category deleted", HttpStatus.OK);
-        }else{
-            return new ResponseEntity<>("Category does not exist", HttpStatus.BAD_REQUEST);
         }
     }
 
+//    @PostMapping("/categories")
+//    public ResponseEntity<CategorySummary> createNewCategory(@RequestBody CategorySummary newCategory) {
+//        log.info("trying to create new category from request object: [{}]", newCategory);
+//        List<CategorySummary> myList = service.readAllCategories();
+//        for (CategorySummary categorySummary : myList) {
+//            String name = categorySummary.name();
+//            if (name.equals(newCategory.name())) {
+//                log.info("Category [{}] exist", newCategory.name());
+//                return null;
+//            }
+//        }
+//        var createdCategory = service.createNewCategory(newCategory);
+//        return ResponseEntity.created(URI.create("/categories/" + createdCategory.id())).body(createdCategory);
+//    }
+
+
+    @DeleteMapping("/categories/{id}")
+    public ResponseEntity<String> deleteCategoryById(@PathVariable("id") Long idOfCategoryToDelete) {
+
+        if (service.readCategoryById(idOfCategoryToDelete).isPresent()) {
+            service.deleteCategoryById(idOfCategoryToDelete);
+            return new ResponseEntity<>("Category deleted", HttpStatus.OK);
+        } else {
+            return new ResponseEntity<>("Category does not exist", HttpStatus.BAD_REQUEST);
+        }
+    }
 
 
 }

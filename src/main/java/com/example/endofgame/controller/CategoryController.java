@@ -1,7 +1,6 @@
 package com.example.endofgame.controller;
 
 import com.example.endofgame.dto.CategorySummary;
-import com.example.endofgame.repository.CategoryRepository;
 import com.example.endofgame.service.CategoryService;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.HttpStatus;
@@ -17,11 +16,9 @@ import java.util.List;
 public class CategoryController {
 
     private final CategoryService service;
-    private final CategoryRepository repository;
 
-    public CategoryController(final CategoryService service, CategoryRepository repository) {
+    public CategoryController(final CategoryService service) {
         this.service = service;
-        this.repository = repository;
     }
 
     @GetMapping("/categories")
@@ -56,7 +53,6 @@ public class CategoryController {
             var createdCategory = service.createNewCategory(newCategory);
 
             return ResponseEntity.created(URI.create("/categories/" + createdCategory.id())).body(createdCategory);
-
         }
     }
 
@@ -71,5 +67,14 @@ public class CategoryController {
         }
     }
 
+    @PutMapping("/categories/{id}")
+    public ResponseEntity<CategorySummary> updateCategory(@RequestBody CategorySummary categorySummary,
+                                            @PathVariable("id") Long id){
+
+            log.info("Category updated");
+            CategorySummary result = service.updateCategory(categorySummary);
+
+            return ResponseEntity.ok().body(result);
+    }
 
 }

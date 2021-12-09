@@ -45,11 +45,6 @@ public class CategoryService {
         return result.map(converter::fromEntityToDto);
     }
 
-//    public boolean isDuplicate(CategorySummary name) {
-//        List<CategorySummary> categoryList = readAllCategories();
-//        return categoryList.contains(name);
-//    }
-
     public boolean isDuplicate(CategorySummary newCategory) {
         List<CategorySummary> myList = readAllCategories();
         for (CategorySummary categorySummary : myList) {
@@ -74,8 +69,16 @@ public class CategoryService {
         return converter.fromEntityToDto(saved);
     }
 
-//    public CategorySummary updateCategory(){
-//        return new CategorySummary;
+    public CategorySummary updateCategory(CategorySummary categorySummary){
+        Category toSave = converter.fromDtoToEntity(categorySummary);
+        Category saved = repository.save(toSave);
+
+
+        return converter.fromEntityToDto(saved);
+    }
+
+//    public CategorySummary update(CategorySummary newCategory){
+//        return repository.save(newCategory);
 //    }
 
     @Transactional

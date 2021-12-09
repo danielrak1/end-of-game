@@ -1,17 +1,20 @@
 package com.example.endofgame.entity;
 
 import lombok.AllArgsConstructor;
+import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 import org.springframework.format.annotation.DateTimeFormat;
 
 import javax.persistence.*;
 import java.time.Instant;
+import java.time.LocalDateTime;
 
 @NoArgsConstructor
 @AllArgsConstructor
 @Entity
 @Data
+@Builder
 @Table(name = "expense")
 public class Expense {
 
@@ -26,15 +29,31 @@ public class Expense {
     @Column(name = "amount")
     private double amount;
 
-    @Column(name = "expense_date")
-    @DateTimeFormat(pattern = "yyyy-MM-dd")
-    private Instant expenseDate;
+    @ManyToOne(cascade = CascadeType.PERSIST)
+    private  User user;
 
     @ManyToOne
     private Category category;
 
-    @ManyToOne
-    private  User user;
 
+
+//    @Column(name = "expense_date")
+//    @DateTimeFormat(pattern = "yyyy-MM-dd")
+//    private Instant expenseDate;
+
+    private LocalDateTime creationTimestamp;
+
+    private LocalDateTime updateTimestamp;
+
+    @PrePersist
+    public void beforeSave (){
+        creationTimestamp = LocalDateTime.now();
+        updateTimestamp = LocalDateTime.now();
+    }
+
+    @PreUpdate
+    public void beforeUpdate(){
+        updateTimestamp = LocalDateTime.now();
+    }
 
 }

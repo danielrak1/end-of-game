@@ -5,10 +5,10 @@ import com.example.endofgame.exception.DeletingNonExistentObject;
 import com.example.endofgame.exception.DuplicateCategoryException;
 import com.example.endofgame.service.CategoryService;
 import lombok.extern.slf4j.Slf4j;
-import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import javax.validation.Valid;
 import java.net.URI;
 import java.util.List;
 
@@ -45,19 +45,11 @@ CategoryController {
     }
 
     @PostMapping("/categories")
-    public ResponseEntity<CategorySummary> createNewCategory(@RequestBody CategorySummary newCategory) throws DuplicateCategoryException {
+    public ResponseEntity<CategorySummary> createNewCategory(@RequestBody @Valid CategorySummary newCategory) throws DuplicateCategoryException {
         log.info("Trying to create new category from request object: [{}]", newCategory);
+        var createdCategory = service.createNewCategory(newCategory);
 
-        if (service.isDuplicate(newCategory)) {
-            log.info("Category already exists");
-
-            return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
-        } else{
-            log.info("Category is new");
-            var createdCategory = service.createNewCategory(newCategory);
-
-            return ResponseEntity.created(URI.create("/categories/" + createdCategory.id())).body(createdCategory);
-        }
+        return ResponseEntity.created(URI.create("/categories/" + createdCategory.id())).body(createdCategory);
     }
 
     @DeleteMapping("/categories/{id}")
@@ -69,12 +61,12 @@ CategoryController {
 
     @PutMapping("/categories/{id}")
     public ResponseEntity<CategorySummary> updateCategory(@RequestBody CategorySummary categorySummary,
-                                            @PathVariable("id") Long id){
+                                                          @PathVariable("id") Long id) {
 
-            log.info("Category updated");
-            CategorySummary result = service.updateCategory(categorySummary);
+        log.info("Category updated");
+        CategorySummary result = service.updateCategory(categorySummary);
 
-            return ResponseEntity.ok().body(result);
+        return ResponseEntity.ok().body(result);
     }
 
 }

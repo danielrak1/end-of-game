@@ -9,7 +9,7 @@ Subject:
 ####Personal Expenses business requirements:
 1. track expenses
    1. add categories
-   2. add bills
+   2. add expense
    3. check expenses per categories
 2. track incomes
    1. add income types

@@ -13,6 +13,7 @@ public class User {
     private Long id;
 
     @Column(nullable = false, unique = true, length = 45)
+
     private String email;
 
     @Column(nullable = false, length = 64)
@@ -25,7 +26,18 @@ public class User {
     private String lastName;
 
     @OneToMany
+    private Set<Expense> expense;
+
+    @OneToMany
     private Set<Category> category;
+
+    public Set<Expense> getExpense() {
+        return expense;
+    }
+
+    public void setExpense(Set<Expense> expense) {
+        this.expense = expense;
+    }
 
     public Set<Category> getCategory() {
         return category;

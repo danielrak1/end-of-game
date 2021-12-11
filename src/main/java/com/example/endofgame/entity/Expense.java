@@ -7,7 +7,7 @@ import lombok.NoArgsConstructor;
 import org.springframework.format.annotation.DateTimeFormat;
 
 import javax.persistence.*;
-import java.time.Instant;
+import java.time.LocalDate;
 import java.time.LocalDateTime;
 
 @NoArgsConstructor
@@ -32,22 +32,17 @@ public class Expense {
     @ManyToOne(cascade = CascadeType.PERSIST)
     private  User user;
 
-    @ManyToOne
+    @ManyToOne(cascade = CascadeType.PERSIST)
     private Category category;
 
-
-
-//    @Column(name = "expense_date")
-//    @DateTimeFormat(pattern = "yyyy-MM-dd")
-//    private Instant expenseDate;
-
-    private LocalDateTime creationTimestamp;
+    @Column(name = "expense_date")
+    @DateTimeFormat(pattern = "yyyy-MM-dd")
+    private LocalDate expenseDate;
 
     private LocalDateTime updateTimestamp;
 
     @PrePersist
     public void beforeSave (){
-        creationTimestamp = LocalDateTime.now();
         updateTimestamp = LocalDateTime.now();
     }
 
@@ -55,5 +50,8 @@ public class Expense {
     public void beforeUpdate(){
         updateTimestamp = LocalDateTime.now();
     }
+
+
+
 
 }

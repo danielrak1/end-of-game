@@ -6,13 +6,14 @@ import org.springframework.stereotype.Component;
 
 @Component
 public class ExpenseConverter implements MappingOperations<Expense, ExpenseSummary> {
+
     @Override
     public ExpenseSummary fromEntityToDto(Expense entity) {
         return new ExpenseSummary(
                 entity.getId(),
                 entity.getDescription(),
                 entity.getAmount(),
-                entity.getCreationTimestamp(),
+                entity.getExpenseDate(),
                 entity.getUpdateTimestamp()
         );
     }
@@ -23,8 +24,9 @@ public class ExpenseConverter implements MappingOperations<Expense, ExpenseSumma
                 .id(dto.id())
                 .description(dto.description())
                 .amount(dto.amount())
-                .creationTimestamp(dto.created())
+                .expenseDate(dto.expenseDate())
                 .updateTimestamp(dto.updated())
                 .build();
     }
+
 }

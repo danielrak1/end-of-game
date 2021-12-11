@@ -1,6 +1,8 @@
 package com.example.endofgame.controller;
 
 import com.example.endofgame.dto.CategorySummary;
+import com.example.endofgame.exception.DeletingNonExistentObject;
+import com.example.endofgame.exception.DuplicateCategoryException;
 import com.example.endofgame.service.CategoryService;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.HttpStatus;
@@ -13,7 +15,9 @@ import java.util.List;
 @RestController
 @Slf4j
 @RequestMapping("/api")
-public class CategoryController {
+public class
+
+CategoryController {
 
     private final CategoryService service;
 
@@ -41,7 +45,7 @@ public class CategoryController {
     }
 
     @PostMapping("/categories")
-    public ResponseEntity<CategorySummary> createNewCategory(@RequestBody CategorySummary newCategory) {
+    public ResponseEntity<CategorySummary> createNewCategory(@RequestBody CategorySummary newCategory) throws DuplicateCategoryException {
         log.info("Trying to create new category from request object: [{}]", newCategory);
 
         if (service.isDuplicate(newCategory)) {
@@ -57,14 +61,10 @@ public class CategoryController {
     }
 
     @DeleteMapping("/categories/{id}")
-    public ResponseEntity<String> deleteCategoryById(@PathVariable("id") Long idOfCategoryToDelete) {
-
-        if (service.readCategoryById(idOfCategoryToDelete).isPresent()) {
-            service.deleteCategoryById(idOfCategoryToDelete);
-            return new ResponseEntity<>("Category deleted", HttpStatus.OK);
-        } else {
-            return new ResponseEntity<>("Category does not exist", HttpStatus.BAD_REQUEST);
-        }
+    public ResponseEntity<Void> deleteCategoryById(@PathVariable("id") Long id) throws DeletingNonExistentObject {
+        log.info("trying to delete category by id: [{}]", id);
+        service.deleteCategoryById(id);
+        return ResponseEntity.noContent().build();
     }
 
     @PutMapping("/categories/{id}")

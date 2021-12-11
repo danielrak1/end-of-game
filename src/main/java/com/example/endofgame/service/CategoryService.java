@@ -3,6 +3,8 @@ package com.example.endofgame.service;
 import com.example.endofgame.converter.CategoryConverter;
 import com.example.endofgame.dto.CategorySummary;
 import com.example.endofgame.entity.Category;
+import com.example.endofgame.exception.DeletingNonExistentObject;
+import com.example.endofgame.exception.DuplicateCategoryException;
 import com.example.endofgame.repository.CategoryRepository;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
@@ -48,8 +50,7 @@ public class CategoryService {
     public boolean isDuplicate(CategorySummary newCategory) {
         List<CategorySummary> myList = readAllCategories();
         for (CategorySummary categorySummary : myList) {
-            String name = categorySummary.name();
-            if (name.equals(newCategory.name())) {
+            if (categorySummary.name().equals(newCategory.name())) {
                 log.info("Category [{}] exist", newCategory.name());
                 return true;
             }
@@ -57,7 +58,11 @@ public class CategoryService {
         return false;
     }
 
-    public CategorySummary createNewCategory(CategorySummary newCategory) {
+    @Transactional
+    public CategorySummary createNewCategory(CategorySummary newCategory) throws DuplicateCategoryException {
+        if(repository.existsByName(newCategory.name())){
+            throw new DuplicateCategoryException(String.format("Category with name: [%s] already exists", newCategory.name()));
+        }
         Category toSave = converter.fromDtoToEntity(newCategory);
         Category saved = repository.save(toSave);
 
@@ -77,19 +82,17 @@ public class CategoryService {
         return converter.fromEntityToDto(saved);
     }
 
-//    public CategorySummary update(CategorySummary newCategory){
-//        return repository.save(newCategory);
-//    }
-
     @Transactional
-    public void deleteCategoryById(Long idOfCategoryToDelete) {
+    public void deleteCategoryById(Long idOfCategoryToDelete) throws DeletingNonExistentObject {
         log.info("Trying to delete category by [{}]", idOfCategoryToDelete);
+
         if (repository.existsById(idOfCategoryToDelete)) {
-            log.info("deleting category with id: [{}]", idOfCategoryToDelete);
             repository.deleteById(idOfCategoryToDelete);
 
         } else {
-            log.info("Category with id: [{}] does not exist", idOfCategoryToDelete);
+            var exception = new DeletingNonExistentObject(String.format("You're trying to delete non existent category with id: [%d]", idOfCategoryToDelete));
+            log.warn("problem  with deleting category", exception);
+            throw exception;
         }
     }
 }

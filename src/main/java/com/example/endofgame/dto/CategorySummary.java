@@ -1,10 +1,11 @@
 package com.example.endofgame.dto;
 
+import com.fasterxml.jackson.annotation.JsonFormat;
+
 import java.time.LocalDateTime;
 
 public record CategorySummary(Long id,
                               String name,
-                              // TODO: change format of those two fields for nicer ones
-                              LocalDateTime created,
-                              LocalDateTime updated) {
+                              @JsonFormat(pattern = "'date:'dd-mm-yyyy") LocalDateTime created,
+                              @JsonFormat(pattern = "'date:'dd-mm-yyyy") LocalDateTime updated) {
 }

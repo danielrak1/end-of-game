@@ -15,9 +15,7 @@ import java.util.List;
 @RestController
 @Slf4j
 @RequestMapping("/api")
-public class
-
-CategoryController {
+public class CategoryController {
 
     private final CategoryService service;
 
@@ -41,6 +39,7 @@ CategoryController {
         if (readCategorySummary.isPresent()) {
             result = ResponseEntity.ok(readCategorySummary.get());
         }
+
         return result;
     }
 

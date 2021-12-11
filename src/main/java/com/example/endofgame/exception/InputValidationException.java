@@ -1,6 +1,6 @@
 package com.example.endofgame.exception;
 
-public class InputValidationException extends BusinessException{
+public class InputValidationException extends BusinessException {
     public InputValidationException() {
     }
 

@@ -10,12 +10,12 @@ import java.time.LocalDateTime;
 public record CategorySummary(Long id,
 
                               @NotEmpty
-                              @Size(min=3)
+                              @Size(min = 3)
                               String name,
 
-                              @JsonFormat(pattern = "'date:'dd-mm-yyyy")
+                              @JsonFormat(pattern = "'date:' dd-MM-yyyy 'time:' HH:mm:ss")
                               LocalDateTime created,
 
-                              @JsonFormat(pattern = "'date:'dd-mm-yyyy")
+                              @JsonFormat(pattern = "'date:' dd-MM-yyyy 'time:' HH:mm:ss")
                               LocalDateTime updated) {
 }

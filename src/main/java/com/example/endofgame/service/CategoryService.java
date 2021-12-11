@@ -8,6 +8,7 @@ import com.example.endofgame.exception.DuplicateCategoryException;
 import com.example.endofgame.repository.CategoryRepository;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import javax.transaction.Transactional;
 import java.util.List;
@@ -92,6 +93,38 @@ public class CategoryService {
         } else {
             var exception = new DeletingNonExistentObject(String.format("You're trying to delete non existent category with id: [%d]", idOfCategoryToDelete));
             log.warn("problem  with deleting category", exception);
+            throw exception;
+        }
+    }
+
+    @Transactional
+    public CategorySummary createNewCategory(CategorySummary newCategory) {
+
+        if (repository.existsByName(newCategory.name())) {
+            var exception = new DuplicateCategoryException(String.format("Category with name: [%s] already exists!!!", newCategory.name()));
+            log.warn("problem with creation of new category", exception);
+            throw exception;
+        }
+        Category toSave = converter.fromDtoToEntity(newCategory);
+        Category saved = repository.save(toSave);
+
+        log.info("creating new category");
+        log.info("object before conversion: [{}]", newCategory);
+        log.info("object after conversion: [{}]", toSave);
+        log.info("saved object: [{}]", saved);
+
+        return converter.fromEntityToDto(saved);
+    }
+
+    @Transactional
+    public void deleteCategoryById(Long idOfCategoryToDelete) throws DeletingNonExistentObject {
+        log.info("deleting category with id: [{}]", idOfCategoryToDelete);
+
+        if (repository.existsById(idOfCategoryToDelete)) {
+            repository.deleteById(idOfCategoryToDelete);
+        } else {
+            var exception = new DeletingNonExistentObject(String.format("You're trying to delete non existent category with id: [%d]", idOfCategoryToDelete));
+            log.warn("problem with deleting category", exception);
             throw exception;
         }
     }

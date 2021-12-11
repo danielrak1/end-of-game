@@ -23,7 +23,7 @@ public class BusinessControllerAdvice {
     }
 
     @ExceptionHandler(BusinessException.class)
-    public ResponseEntity<ErrorResponse> handleDuplicateCategoryEntities(BusinessException exc) {
+    public ResponseEntity<ErrorResponse> handleGenericClientError(BusinessException exc) {
         ErrorResponse response = createGenericErrorResponse(HttpStatus.BAD_REQUEST, exc);
         return new ResponseEntity<>(response, HttpStatus.BAD_REQUEST);
     }

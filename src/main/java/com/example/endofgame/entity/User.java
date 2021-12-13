@@ -1,6 +1,7 @@
 package com.example.endofgame.entity;
 
 import javax.persistence.*;
+import javax.validation.constraints.Email;
 import java.util.Set;
 
 
@@ -12,8 +13,8 @@ public class User {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
+    @Email
     @Column(nullable = false, unique = true, length = 45)
-
     private String email;
 
     @Column(nullable = false, length = 64)

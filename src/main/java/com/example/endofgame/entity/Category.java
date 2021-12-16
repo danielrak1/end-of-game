@@ -7,6 +7,7 @@ import lombok.NoArgsConstructor;
 
 import javax.persistence.*;
 import java.time.LocalDateTime;
+import java.util.Set;
 
 @Entity
 @Data
@@ -24,7 +25,11 @@ public class Category {
     private String name;
 
     @ManyToOne(cascade = CascadeType.PERSIST)
+    @JoinColumn(name = "user_id")
     private User user;
+
+    @OneToMany(mappedBy = "category")
+    private Set<Expense> expense;
 
     private LocalDateTime creationTimestamp;
 

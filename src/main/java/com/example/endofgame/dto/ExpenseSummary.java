@@ -1,13 +1,24 @@
 package com.example.endofgame.dto;
 
+import com.fasterxml.jackson.annotation.JsonFormat;
+
+import javax.validation.constraints.NotEmpty;
+import javax.validation.constraints.Size;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.util.Objects;
 
 public record ExpenseSummary(Long id,
+
+                             @NotEmpty
+                             @Size(min = 3)
                              String description,
                              double amount,
+
+                             @JsonFormat(pattern = "'date:' dd-MM-yyyy 'time:' HH:mm:ss")
                              LocalDate expenseDate,
+
+                             @JsonFormat(pattern = "'date:' dd-MM-yyyy 'time:' HH:mm:ss")
                              LocalDateTime updated) {
 
     @Override

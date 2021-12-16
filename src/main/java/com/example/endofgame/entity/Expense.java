@@ -30,9 +30,7 @@ public class Expense {
     private double amount;
 
     @ManyToOne(cascade = CascadeType.PERSIST)
-    private  User user;
-
-    @ManyToOne(cascade = CascadeType.PERSIST)
+    @JoinColumn(name = "category_id")
     private Category category;
 
     @Column(name = "expense_date")
@@ -40,6 +38,7 @@ public class Expense {
     private LocalDate expenseDate;
 
     private LocalDateTime updateTimestamp;
+
 
     @PrePersist
     public void beforeSave (){

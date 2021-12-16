@@ -1,5 +1,6 @@
 package com.example.endofgame.dto;
 
+import com.example.endofgame.entity.User;
 import com.fasterxml.jackson.annotation.JsonFormat;
 
 import javax.validation.constraints.Min;

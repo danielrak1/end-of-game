@@ -1,13 +1,12 @@
 package com.example.endofgame.controller.web;
 
+import com.example.endofgame.dto.CategorySummary;
+import com.example.endofgame.entity.Category;
 import com.example.endofgame.service.CategoryService;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
-import org.springframework.web.bind.annotation.DeleteMapping;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.*;
 
 @Controller
 @Slf4j
@@ -27,6 +26,13 @@ public class CategoryWebController {
         return "/all-categories";
     }
 
+    @PostMapping("/add-category")
+    public String createNewCategory(CategorySummary categorySummary){
+        categoryService.createNewCategory(categorySummary);
+
+    return "redirect:/web/all-categories";
+    }
+
     @GetMapping("delete-category/{id}")
     public String deleteCategoryById(@PathVariable("id") Long id) {
         log.info("deleting category by id: [{}]", id);
@@ -34,6 +40,12 @@ public class CategoryWebController {
         categoryService.deleteCategoryById(id);
 
         return "redirect:/web/all-categories";
+    }
+
+    @GetMapping("/add-category")
+    public String AddCategoryForm(Model model){
+        model.addAttribute("category", new Category());
+        return "add_category";
     }
 
 }

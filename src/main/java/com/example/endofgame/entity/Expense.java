@@ -34,6 +34,7 @@ public class Expense {
     private Category category;
 
     @Column(name = "expense_date")
+//    @DateTimeFormat(iso = DateTimeFormat.ISO.DATE)
     @DateTimeFormat(pattern = "yyyy-MM-dd")
     private LocalDate expenseDate;
 

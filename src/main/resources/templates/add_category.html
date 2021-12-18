@@ -5,7 +5,7 @@
 
 <head>
     <meta charset="utf-8">
-    <title>Add category</title>
+    <title th:text="${action} + ' category'">Add new category</title>
 
     <!-- Google Fonts-->
     <link rel="preconnect" href="https://fonts.googleapis.com">
@@ -55,8 +55,9 @@
         </header>
     </div>
 
-    <form th:action="@{/web/add-category}" th:object="${category}"
+    <form action="#" th:action="@{/web/add-category}" th:object="${category}"
           method="post" style="max-width: 600px; margin: 0 auto">
+        <input type="hidden" th:field="*{id}">
         <div class="m-3">
             <div class="form-group row" style="padding: 10px">
                 <label class="col-4 col-form-label">Category name </label>

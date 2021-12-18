@@ -19,9 +19,12 @@ import org.springframework.web.bind.annotation.*;
 public class CategoryWebController {
 
     public static final String CATEGORIES_KEY = "categories";
+    public static final String CATEGORY = "category";
+    public static final String ACTION = "action";
     private final CategoryService categoryService;
     private final CustomUserDetailsService detailsService;
     private final CategoryRepository repository;
+    private final CategorySummary emptyCategory = new CategorySummary(null, null, null, null);
 
     public CategoryWebController(CategoryService categoryService, CustomUserDetailsService detailsService, CategoryRepository repository) {
         this.categoryService = categoryService;
@@ -36,8 +39,8 @@ public class CategoryWebController {
     }
 
     @PostMapping("/add-category")
-    public String createNewCategory(CategorySummary categorySummary){
-        categoryService.createNewCategory(categorySummary);
+    public String createNewCategory(CategorySummary newCategory){
+        categoryService.createNewCategory(newCategory);
 
     return "redirect:/web/all-categories";
     }
@@ -52,9 +55,20 @@ public class CategoryWebController {
     }
 
     @GetMapping("/add-category")
-    public String AddCategoryForm(Model model){
-        model.addAttribute("category", new Category());
-        return "add_category";
+    public String addCategoryForm(Model data){
+        data.addAttribute("category", new Category());
+        data.addAttribute(ACTION, "Add new");
+
+        return "/add_category";
+    }
+
+    @GetMapping("/edit-category/{id}")
+    public String showEditCategoryForm(@PathVariable("id") Long categoryId, Model data){
+        var category = categoryService.readCategoryById(categoryId);
+        data.addAttribute(CATEGORY, category.orElse((emptyCategory)));
+        data.addAttribute(ACTION, "Edit");
+
+        return "/add-category";
     }
 
 //    @PostMapping("/process_add-category")

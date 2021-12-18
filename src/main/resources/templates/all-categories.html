@@ -66,9 +66,10 @@
       <tbody >
       <tr th:each="cat: ${categories}">
         <td  th:text="${cat.name()}">Shopping</td>
-        <td  th:text="${cat.created()}">2021-10-21</td>
-        <td  th:text="${cat.updated()}">2021-10-21</td>
-        <td ><a class="text-danger" th:href="@{'/web/delete-category/' + ${cat.id()}}" href="#">Delete me</a></td>
+        <td  th:text="${#temporals.format(cat.created(), 'dd-MM-yyyy')}"></td>
+        <td  th:text="${#temporals.format(cat.updated(), 'dd-MM-yyyy')}">2021-10-21</td>
+        <td ><a class="text-success" th:href="@{'/web/edit-category/' + ${cat.id()}}" href="#">Edit me</a></td>
+        <td ><a class="text-info" th:href="@{'/web/delete-category/' + ${cat.id()}}" href="#">Delete me</a></td>
       </tr>
       </tbody>
     </table>

@@ -1,6 +1,7 @@
 package com.example.endofgame.dto;
 
 import com.fasterxml.jackson.annotation.JsonFormat;
+import org.springframework.format.annotation.DateTimeFormat;
 
 import javax.validation.constraints.NotEmpty;
 import javax.validation.constraints.Size;
@@ -15,7 +16,8 @@ public record ExpenseSummary(Long id,
                              String description,
                              double amount,
 
-                             @JsonFormat(pattern = "'date:' dd-MM-yyyy 'time:' HH:mm:ss")
+                             @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd")
+                             @DateTimeFormat(iso = DateTimeFormat.ISO.DATE)
                              LocalDate expenseDate,
 
                              @JsonFormat(pattern = "'date:' dd-MM-yyyy 'time:' HH:mm:ss")

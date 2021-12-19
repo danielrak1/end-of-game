@@ -13,7 +13,7 @@ import org.springframework.test.annotation.Rollback;
 @DataJpaTest
 @AutoConfigureTestDatabase(replace = AutoConfigureTestDatabase.Replace.NONE)
 @Rollback(value = false)
-public class UserRepositoryTests {
+class UserRepositoryTests {
 
     @Autowired
     private TestEntityManager entityManager;
@@ -22,7 +22,7 @@ public class UserRepositoryTests {
     private UserRepository repo;
 
     @Test
-    public void testCreateUser(){
+    void testCreateUser(){
         User user = new User();
         user.setEmail("enzothecorgi@gmail.com");
         user.setPassword("corgi");

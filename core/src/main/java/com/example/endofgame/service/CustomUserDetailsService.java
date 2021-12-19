@@ -1,6 +1,5 @@
 package com.example.endofgame.service;
 
-import com.example.endofgame.entity.Category;
 import com.example.endofgame.entity.User;
 import com.example.endofgame.repository.UserRepository;
 import com.example.endofgame.vo.CustomUserDetails;

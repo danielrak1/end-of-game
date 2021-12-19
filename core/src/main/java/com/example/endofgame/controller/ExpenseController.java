@@ -1,6 +1,5 @@
 package com.example.endofgame.controller;
 
-import com.example.endofgame.dto.CategorySummary;
 import com.example.endofgame.dto.ExpenseSummary;
 import com.example.endofgame.service.ExpenseService;
 import lombok.extern.slf4j.Slf4j;

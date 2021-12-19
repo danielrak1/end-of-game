@@ -2,7 +2,6 @@ package com.example.endofgame.controller.web;
 
 import com.example.endofgame.dto.CategorySummary;
 import com.example.endofgame.entity.Category;
-import com.example.endofgame.entity.User;
 import com.example.endofgame.repository.CategoryRepository;
 import com.example.endofgame.service.CategoryService;
 import com.example.endofgame.service.CustomUserDetailsService;

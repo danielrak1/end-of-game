@@ -1,16 +1,13 @@
 package com.example.endofgame.service;
 
 import com.example.endofgame.converter.ExpenseConverter;
-import com.example.endofgame.dto.CategorySummary;
 import com.example.endofgame.dto.ExpenseSummary;
-import com.example.endofgame.entity.Category;
 import com.example.endofgame.entity.Expense;
 import com.example.endofgame.repository.ExpenseRepository;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
 
 import javax.transaction.Transactional;
-import java.time.LocalDate;
 import java.util.List;
 import java.util.Optional;
 

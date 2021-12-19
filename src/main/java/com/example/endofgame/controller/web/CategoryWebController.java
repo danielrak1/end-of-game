@@ -71,14 +71,16 @@ public class CategoryWebController {
         return "/add-category";
     }
 
-//    @PostMapping("/process_add-category")
-//    public String addCategory(Category category){
-//        Authentication auth = SecurityContextHolder.getContext().getAuthentication();
-//        User user = detailsService.loadUser(auth.getName());
-//        category.setUser(user);
-//        repository.save(category);
-//
-//        return "redirect:/web/all-categories";
-//    }
+    @PostMapping("/process_add-category")
+    public String addCategory(Category category){
+        Authentication auth = SecurityContextHolder.getContext().getAuthentication();
+        User user = detailsService.loadUser(auth.getName());
+        category.setUser(user);
+        repository.save(category);
+
+        return "redirect:/web/all-categories";
+    }
+
+
 
 }

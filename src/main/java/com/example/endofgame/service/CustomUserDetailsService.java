@@ -34,10 +34,5 @@ public class CustomUserDetailsService implements UserDetailsService {
         return user;
     }
 
-//    @PostMapping("/process_add-category")
-//    public String addCategory(Category category){
-//        Authentication auth = SecurityContextHolder.getContext().getAuthentication();
-//
-//        User user =
-//    }
+
 }

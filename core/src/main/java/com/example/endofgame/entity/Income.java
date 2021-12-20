@@ -15,7 +15,7 @@ import java.time.LocalDateTime;
 @Entity
 @Data
 @Builder
-@Table(name = "expense")
+@Table(name = "income")
 public class Income {
 
     @Id

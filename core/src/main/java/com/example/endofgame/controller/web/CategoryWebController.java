@@ -2,6 +2,7 @@ package com.example.endofgame.controller.web;
 
 import com.example.endofgame.dto.CategorySummary;
 import com.example.endofgame.entity.Category;
+import com.example.endofgame.entity.User;
 import com.example.endofgame.repository.CategoryRepository;
 import com.example.endofgame.service.CategoryService;
 import com.example.endofgame.service.CustomUserDetailsService;
@@ -70,14 +71,14 @@ public class CategoryWebController {
         return "/add-category";
     }
 
-//    @PostMapping("/process_add-category")
-//    public String addCategory(Category category){
-//        Authentication auth = SecurityContextHolder.getContext().getAuthentication();
-//        User user = detailsService.loadUser(auth.getName());
-//        category.setUser(user);
-//        repository.save(category);
-//
-//        return "redirect:/web/all-categories";
-//    }
+    @PostMapping("/process_add-category")
+    public String addCategory(Category category, User user){
+        Authentication auth = SecurityContextHolder.getContext().getAuthentication();
+        user = detailsService.loadUser(auth.getName());
+        category.setUser(user);
+        repository.save(category);
+
+        return "redirect:/web/all-categories";
+    }
 
 }

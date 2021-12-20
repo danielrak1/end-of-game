@@ -72,15 +72,13 @@ public class CategoryWebController {
     }
 
     @PostMapping("/process_add-category")
-    public String addCategory(Category category){
+    public String addCategory(Category category, User user){
         Authentication auth = SecurityContextHolder.getContext().getAuthentication();
-        User user = detailsService.loadUser(auth.getName());
+        user = detailsService.loadUser(auth.getName());
         category.setUser(user);
         repository.save(category);
 
         return "redirect:/web/all-categories";
     }
-
-
 
 }

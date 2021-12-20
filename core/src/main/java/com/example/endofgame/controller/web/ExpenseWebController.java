@@ -1,8 +1,6 @@
 package com.example.endofgame.controller.web;
 
-import com.example.endofgame.dto.CategorySummary;
 import com.example.endofgame.dto.ExpenseSummary;
-import com.example.endofgame.entity.Category;
 import com.example.endofgame.entity.Expense;
 import com.example.endofgame.service.ExpenseService;
 import lombok.extern.slf4j.Slf4j;
@@ -48,8 +46,9 @@ public class ExpenseWebController {
     }
 
     @GetMapping("/add-expense")
-    public String AddExpenseForm(Model model){
+    public String addExpenseForm(Model model){
         model.addAttribute("expense", new Expense());
         return "add_expense";
     }
 }
+

@@ -26,19 +26,9 @@ public class User {
     @Column(name = "last_name", nullable = false, length = 20)
     private String lastName;
 
-//    @OneToMany(mappedBy = "user", cascade = CascadeType.ALL)
-//    private Set<Expense> expense;
 
     @OneToMany(mappedBy = "user", cascade = CascadeType.ALL)
     private Set<Category> category;
-
-//    public Set<Expense> getExpense() {
-//        return expense;
-//    }
-//
-//    public void setExpense(Set<Expense> expense) {
-//        this.expense = expense;
-//    }
 
     public Set<Category> getCategory() {
         return category;

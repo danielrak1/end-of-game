@@ -1,5 +1,6 @@
 package com.example.endofgame.controller.web;
 
+import com.example.endofgame.dto.CategorySummary;
 import com.example.endofgame.dto.ExpenseSummary;
 import com.example.endofgame.entity.Expense;
 import com.example.endofgame.service.ExpenseService;
@@ -17,7 +18,11 @@ import org.springframework.web.bind.annotation.RequestMapping;
 public class ExpenseWebController {
 
     public static final String EXPENSE_KEY = "expenses";
+    private static final String EXPENSE = "expense";
+    private static final String ACTION = "action";
     private final ExpenseService expenseService;
+    private final ExpenseSummary emptyExpense = new ExpenseSummary(null, null, null, null, null);
+
 
     public ExpenseWebController(ExpenseService expenseService) {
         this.expenseService = expenseService;
@@ -49,6 +54,15 @@ public class ExpenseWebController {
     public String addExpenseForm(Model model){
         model.addAttribute("expense", new Expense());
         return "add_expense";
+    }
+
+    @GetMapping("/edit-expense/{id}")
+    public String showEditExpenseForm(@PathVariable("id") Long expenseId, Model data){
+        var expense = expenseService.readExpenseById(expenseId);
+        data.addAttribute(EXPENSE, expense.orElse((emptyExpense)));
+        data.addAttribute(ACTION, "Edit");
+
+        return "/add-expense";
     }
 }
 

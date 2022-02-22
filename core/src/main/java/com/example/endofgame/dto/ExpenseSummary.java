@@ -14,7 +14,7 @@ public record ExpenseSummary(Long id,
                              @NotEmpty
                              @Size(min = 3)
                              String description,
-                             double amount,
+                             Double amount,
 
                              @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd")
                              @DateTimeFormat(iso = DateTimeFormat.ISO.DATE)

@@ -1,19 +1,23 @@
-This is an Web Application to Track Expenses developed using :
+This is a Web Application to Track Expenses and income.
 
-Java 17 
+Developed using :
 
-Spring Boot 2.6.0
-
-Spring Data JPA 
-
-Spring Security 
+-Java 17
+-Spring Boot 2.6.0
+-Spring Data JPA
+-Spring Security 
 
 Authentication:
+Authentication is provided using spring security. 
+The user is allowed to create a new account and track the expense. 
+The password will be stored in the database in encrypted format.
 
-Authentication is provided using spring security. The user is allowed to create a new account and track the expense. The password will be stored in the database in encrypted format. An option is provided to logout of his account in every page.
+Database: MySQL
 
-Database:
+Server: 
 
-Server:
-
-Application Features:
+Application Features: 
+-Track income
+-Track expenses
+-Login
+-Register
